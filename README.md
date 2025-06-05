@@ -1,2 +1,120 @@
-# easybakes
-Baking Blog
+# Easy Bakes
+I have created a baking blog to feature my personal recipes which incorporate a mix of healthy treats and snacks, focusing on nutritious alternatives to popular baked goods and meals. I have chosen to host my server on Amazon EC2 as this offers flexibility, control and customisation of the server environment, allowing for advanced features and scalability. The website is run on an Apache2 webserver, using MySQL for database management, and WordPress to create, edit and manage the site.
+
+### Installing the server
+Amazon EC2 Setup
+- Sign up to AmazonEC2 (free tier eligible)
+- Launch instance
+- Choose Ubuntu Server 24.04 LTS (64bit (x86))
+- Create new key pair (.pem) - this gives us command line access to the VM
+- Allow SSH traffic from anywhere, and HTTP - this enables our server to receive web traffic
+- Configure storage - 30gb, gp3 root volume - this allows enough space for the content and images
+
+### Connecting to instance
+1. Go to instances on AWS EC2, choose instance and click connect
+2. Open an SSH client
+3. Locate private key file (key.pem)
+4. Ensure key is not publicly viewable
+   ```
+   chmod 400 "keyname.pem"
+   ```
+   This limits read permissions to only the files owner or user
+
+5. Connect to instance using its Public DNS
+   ```
+   ssh -i "keyname.pem" ubuntu@ec2-54-206-105-26.ap-southeast-2.compute.amazonaws.com
+   ```
+   You should now have remote control of your virtual machine
+
+### Install Apache2 Webserver
+Installing Apache2 enables the computer to deliver content through the internet
+```
+sudo apt update
+```
+This ensures the apt repositories are updates
+
+```
+sudo apt install apache2
+```
+
+To test if it works, enter your public IP address into a web browser. It should come up with the Apache2 Ubuntu Default Page.
+
+### Linking Domain Name - Crazy Domains
+1. Obtain a domain name from Crazy Domains
+2. Log in to Crazy Domains and go to Domain Registration, followed by DNS Settings
+3. Select A records, and click edit button to add your servers IP address
+
+### Install Database
+```
+sudo apt install mysql-server
+```
+```
+sudo mysql_secure_installation
+```
+
+### Installing Wordpress
+Download and uncip the WordPress installation package
+```
+wget https://wordpress.org/latest.tar.gz
+```
+```
+unzip -tar -xzf latest.tar.gz
+```
+
+Move wordpress to the document root of Apache2
+```
+sudo mv wordpress/ /var/www/html
+```
+
+### Create a MySQL database and username
+```
+sudo mysql -u root -p
+```
+
+This will ask you to enter your root password
+You will now be on the mysql command line. Next we will set up a database and user to store and manage data.
+
+``` 
+CREATE DATABASE dbname;
+```
+Replace dbname with your chosen database name
+
+```
+CREATE USER username@'localhost' IDENTIFIED BY 'chosenpassword';
+```
+Replace username with your chosen username and chosenpassword with your password of choice
+
+``` 
+GRANT ALL PRIVILEGES ON dbname.* TO 'username'@'localhost';
+```
+``` 
+FLUSH PRIVILEGES;
+```
+This updates the database with your changes
+```
+EXIT
+```
+
+### Create and edit the wp-config.php file
+1. Create a wp-config.php file by copying the wp-config-sample.php file. This provides a new configuration while keeping hte original as a backup
+   ```
+   cp wordpress/wp-config-sample.php wordpress/wp-config.php
+   ```
+2. We will now edit the wp.config-php file, replacing each line with our updated information
+   ```
+   nano wordpress/wp-config.php
+   ```
+   Find the lines that say define('DB_NAME', 'dbname'); and replace this with your db name
+   e.g., ('DB_NAME', 'easybakes');
+
+   Do this for the user and password lines as well
+
+3. Find the Authentication Unique Keys and Salts and replace the text with your generated key values
+   You can generate this by visiting https://api.wordpress.org/secret-key/1.1/salt/
+
+### Obtain and Configure SSL/TLS Certificate
+1. Log in to AWS Management Console
+2. Go to AWS Certificate manager and request a certificate (valid for 13 months)
+3. Validate domain ownership for your certificate
+
+
