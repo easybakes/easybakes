@@ -112,9 +112,34 @@ EXIT
 3. Find the Authentication Unique Keys and Salts and replace the text with your generated key values
    You can generate this by visiting https://api.wordpress.org/secret-key/1.1/salt/
 
+4. Remove index.html file (this will be located in var/www/html)
+   ```
+   sudo rm index.html
+   ```
+
+   ```
+   sudo systemctl restart apache2
+   ```
+
+   When you now visit your domain name, it should direct you to the wordpress page. From here, pick your chosen language, and enter the database and username details you created above. Once this has been done, you should now be able to access
+   
+
 ### Obtain and Configure SSL/TLS Certificate
-1. Log in to AWS Management Console
-2. Go to AWS Certificate manager and request a certificate (valid for 13 months)
-3. Validate domain ownership for your certificate
+
+   ```
+   sudo apt install certbot python3-certbot-apache
+   ```
+   ```
+   sudo certbot --apache
+   ```
+   This will ask you to enter an email address, and agree to the terms of service. It will then ask if you are willing to share your email (this is optional).
+
+   Following this it will ask you to enter the domain name(s) you want on the certificate
+   e.g.,
+   ```
+   easybakes.shop www.easybakes.shop
+   ```
+
+   
 
 
