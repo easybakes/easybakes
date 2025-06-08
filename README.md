@@ -121,11 +121,11 @@ EXIT
    sudo systemctl restart apache2
    ```
 
-   When you now visit your domain name, it should direct you to the wordpress page. From here, pick your chosen language, and enter the database and username details you created above. Once this has been done, you should now be able to access
+   When you now visit your domain name, it should direct you to the wordpress page. From here, pick your chosen language, and enter the database and username details you created above. Once this has been done, you should now be able to access your website to edit.
    
 
 ### Obtain and Configure SSL/TLS Certificate
-
+This will enable HTTPS encryption on your website.
    ```
    sudo apt install certbot python3-certbot-apache
    ```
@@ -139,6 +139,31 @@ EXIT
    ```
    easybakes.shop www.easybakes.shop
    ```
+Now we will update the WordPress general settings. 
+Do this by logging into WordPress> dashboard> security> general. Ensure both WordPress and Site address are https://yourdomain.com
+Save changes.
+
+This will likely log you out, and you will need to log back in. 
+
+Mixed Content Errors
+Sometimes you may come accross mixed content errors, and some content might not be accessible. To fix this, go to your WordPress dashboard> plug ins. Search 'Better Search Replace', install and activate. 
+
+Once this has been completed, go to Tools> Better Search Replace. Place http://yourdomain.com in the search for, and https://yourdomain.com in the replacement section. Select all database tables, and run as a dry run first. Click 'Run Search/Replace', this will tell you if anything needs updating. You can also run the search for https://youripaddress and replace with https://yourdomain.com to fix any remaining IP addresses. 
+
+If there are any errors, uncheck dry run first and click 'Run Search/Replace'.
+
+### Copyright Licenses
+It is important to copyright your work to protect your original ideas and creations. This ensure my work cannot be stolen and passed off.
+
+Including a Creative Commons license provides you with choices on how others can use your work, leaving it up to you how your work may be interpreted and distributed.
+
+Visit https://creativecommons.org/chooser/ to select a Creative Commons license that fits your website. 
+This will ask you which license, and the details of your project, providing you with a Creative Commons copyright statement to apply to your project.
+
+This will be placed in the footer of your website.
+
+
+
 
    
 
