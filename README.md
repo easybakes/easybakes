@@ -1,12 +1,14 @@
 # Easy Bakes
 #### Project Domain - easybakes.shop
 
-#### Link to project - www.easybakes.shop
+#### Link to Project - www.easybakes.shop
+
+#### Link to Video Explain - https://drive.google.com/file/d/1_dbx2ACWer2reqEaUaHCcDGqcfl8LHgE/view?usp=sharing
 
 I have created a baking blog to feature my personal recipes which incorporate a mix of healthy treats and snacks, focusing on nutritious alternatives to popular baked goods and meals. I have chosen to host my server on Amazon EC2 as this offers flexibility, control and customisation of the server environment, allowing for advanced features and scalability. The website is run on an Apache2 webserver, using MySQL for database management, and WordPress to create, edit and manage the site.
 
 ### Installing the server
-Amazon EC2 Setup
+Amazon EC2 Setup:
 - Sign up to AmazonEC2 (free tier eligible)
 - Launch instance
 - Choose Ubuntu Server 24.04 LTS (64bit (x86))
@@ -52,9 +54,11 @@ To test if it works, enter your public IP address into a web browser. It should 
 ```
 sudo apt install mysql-server
 ```
+This installs a database that holds all the websites information.
 ```
 sudo mysql_secure_installation
 ```
+This step allows you to secure your detabase server.
 
 ### Installing Wordpress (Amazon Web Services, n.d.)
 Download and unzip the WordPress installation package.
@@ -76,6 +80,7 @@ sudo mysql -u root -p
 ```
 
 This will ask you to enter your root password
+
 You will now be on the mysql command line. Next we will set up a database and user to store and manage data.
 
 ``` 
@@ -155,7 +160,11 @@ This will likely log you out, and you will need to log back in.
 Sometimes you may come accross mixed content errors, and some content might not be accessible. To fix this, go to your WordPress dashboard> plug ins. Search 'Better Search Replace', install and activate. 
 
 Once this has been completed, go to Tools> Better Search Replace. 
+
+
 Place http://yourdomain.com in the search for, and https://yourdomain.com in the replacement section. 
+
+
 Select all database tables, and run as a dry run first. Click 'Run Search/Replace', this will tell you if anything needs updating. You can also run the search for https://youripaddress and replace with https://yourdomain.com to fix any remaining IP addresses. 
 
 If there are any errors, uncheck dry run first and click 'Run Search/Replace'.
@@ -289,11 +298,11 @@ This will be placed in the footer of your website.
 
 
 ### References
-Amazon Web Services. (n.d.). Hosting WordPress on Amazon Linux 2. AWS Documentation.        
-   https://docs.aws.amazon.com/linux/al2/ug/hosting-wordpress.html
+Amazon Web Services. (n.d.). Hosting WordPress on Amazon Linux 2. *AWS Documentation*.        
+      https://docs.aws.amazon.com/linux/al2/ug/hosting-wordpress.html
 
 Technical Rajni. (2024). Bash Scripting Tutorial #21 How to Automatically Backup MySQL Database Using Bash Script.    
-   https://www.youtube.com/watch?v=WjdbWDslCas
+      https://www.youtube.com/watch?v=WjdbWDslCas
 
 
 
