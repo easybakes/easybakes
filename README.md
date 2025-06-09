@@ -1,4 +1,6 @@
 # Easy Bakes
+DNS - easybakes.shop
+
 I have created a baking blog to feature my personal recipes which incorporate a mix of healthy treats and snacks, focusing on nutritious alternatives to popular baked goods and meals. I have chosen to host my server on Amazon EC2 as this offers flexibility, control and customisation of the server environment, allowing for advanced features and scalability. The website is run on an Apache2 webserver, using MySQL for database management, and WordPress to create, edit and manage the site.
 
 ### Installing the server
@@ -52,7 +54,7 @@ sudo apt install mysql-server
 sudo mysql_secure_installation
 ```
 
-### Installing Wordpress
+### Installing Wordpress (Amazon Web Services, n.d.)
 Download and uncip the WordPress installation package
 ```
 wget https://wordpress.org/latest.tar.gz
@@ -66,7 +68,7 @@ Move wordpress to the document root of Apache2
 sudo mv wordpress/ /var/www/html
 ```
 
-### Create a MySQL database and username
+### Create a MySQL database and username (Amazon Web Services, n.d.)
 ```
 sudo mysql -u root -p
 ```
@@ -145,12 +147,113 @@ Save changes.
 
 This will likely log you out, and you will need to log back in. 
 
-Mixed Content Errors
+
+
+### Mixed Content Errors
 Sometimes you may come accross mixed content errors, and some content might not be accessible. To fix this, go to your WordPress dashboard> plug ins. Search 'Better Search Replace', install and activate. 
 
-Once this has been completed, go to Tools> Better Search Replace. Place http://yourdomain.com in the search for, and https://yourdomain.com in the replacement section. Select all database tables, and run as a dry run first. Click 'Run Search/Replace', this will tell you if anything needs updating. You can also run the search for https://youripaddress and replace with https://yourdomain.com to fix any remaining IP addresses. 
+Once this has been completed, go to Tools> Better Search Replace. 
+Place http://yourdomain.com in the search for, and https://yourdomain.com in the replacement section. 
+Select all database tables, and run as a dry run first. Click 'Run Search/Replace', this will tell you if anything needs updating. You can also run the search for https://youripaddress and replace with https://yourdomain.com to fix any remaining IP addresses. 
 
 If there are any errors, uncheck dry run first and click 'Run Search/Replace'.
+
+
+### Bash Scripting
+To check if you are running bash
+```
+echo $SHELL
+```
+
+To create the script, create an empty text file
+```
+nano scriptname.sh
+```
+You can now edit your script
+
+Begin the page with:
+
+```
+#!/bin/bash
+```
+Followed by your script. Your script is used for automating tasks, so create a script based on what is relevant to your server.
+
+
+To execute the script
+```
+sudo chmod +x scriptname.sh
+```
+This will prompt you for your password. 
+
+To run the script output 
+```
+./scriptname.sh
+```
+
+To easily view the contents of your script, you can use the cat command
+
+```
+cat scriptname.sh
+```
+
+### Backup Script (Technical Rajni, 2024)
+
+Create .my.cnf file.
+
+This ensures that the password cannot be read by other users.
+
+```
+nano .my.cnf
+```
+
+```
+[client]
+user=username
+password="chosenpassword"
+```
+
+Ctrl X, Y to save
+
+Create backup script. This enables automatic backups for WordPress.
+
+```
+nano backupscript.sh
+```
+
+```
+#!/bin/bash
+
+# MySQL DB credentials - anything beginning with # does not get read when the script is run
+DB_USER="user"
+DB_NAME="name"
+
+# Backup directory
+BACKUP_DIR="/home/ubuntu/wordpress_backups"
+TIMESTAMP=$(date +%d%m%Y_%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/$DB_NAME_$TIMESTAMP.sql"
+
+# Dump the MySQL database
+mysqldump -u $DB_USeR" "$DB_NAME" > "$BACKUP_FILE"
+
+# Check if the backup was successful
+ef [ $? -eq 0 ]; then
+   echo "Backup created successfully at $BACKUP_FILE"
+else
+   echo "Backup failed"
+fi
+```
+
+Execute and run the script
+```
+chmod +x ~/backupscript.sh
+```
+```
+./backupscript.sh
+```
+
+To automate the backup process, you can set up and run a cron job to run the script at specific intervals 
+
+......................................
 
 ### Copyright Licenses
 It is important to copyright your work to protect your original ideas and creations. This ensure my work cannot be stolen and passed off.
@@ -158,10 +261,16 @@ It is important to copyright your work to protect your original ideas and creati
 Including a Creative Commons license provides you with choices on how others can use your work, leaving it up to you how your work may be interpreted and distributed.
 
 Visit https://creativecommons.org/chooser/ to select a Creative Commons license that fits your website. 
+
 This will ask you which license, and the details of your project, providing you with a Creative Commons copyright statement to apply to your project.
 
 This will be placed in the footer of your website.
 
+
+### References
+Amazon Web Services. (n.d.). Hosting WordPress on Amazon Linux 2. AWS Documentation. https://docs.aws.amazon.com/linux/al2/ug/hosting-wordpress.html
+
+Technical Rajni. (2024). Bash Scripting Tutorial #21 How to Automatically Backup MySQL Database Using Bash Script. https://www.youtube.com/watch?v=WjdbWDslCas
 
 
 
