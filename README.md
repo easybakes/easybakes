@@ -1,5 +1,7 @@
 # Easy Bakes
-DNS - easybakes.shop
+#### Project Domain - easybakes.shop
+
+#### Link to project - www.easybakes.shop
 
 I have created a baking blog to feature my personal recipes which incorporate a mix of healthy treats and snacks, focusing on nutritious alternatives to popular baked goods and meals. I have chosen to host my server on Amazon EC2 as this offers flexibility, control and customisation of the server environment, allowing for advanced features and scalability. The website is run on an Apache2 webserver, using MySQL for database management, and WordPress to create, edit and manage the site.
 
@@ -29,11 +31,11 @@ Amazon EC2 Setup
    You should now have remote control of your virtual machine
 
 ### Install Apache2 Webserver
-Installing Apache2 enables the computer to deliver content through the internet
+Installing Apache2 enables the computer to deliver content through the internet.
 ```
 sudo apt update
 ```
-This ensures the apt repositories are updates
+This ensures the apt repositories are up to date.
 
 ```
 sudo apt install apache2
@@ -55,7 +57,7 @@ sudo mysql_secure_installation
 ```
 
 ### Installing Wordpress (Amazon Web Services, n.d.)
-Download and uncip the WordPress installation package
+Download and unzip the WordPress installation package.
 ```
 wget https://wordpress.org/latest.tar.gz
 ```
@@ -63,7 +65,7 @@ wget https://wordpress.org/latest.tar.gz
 unzip -tar -xzf latest.tar.gz
 ```
 
-Move wordpress to the document root of Apache2
+Move wordpress to the document root of Apache2.
 ```
 sudo mv wordpress/ /var/www/html
 ```
@@ -79,12 +81,12 @@ You will now be on the mysql command line. Next we will set up a database and us
 ``` 
 CREATE DATABASE dbname;
 ```
-Replace dbname with your chosen database name
+Replace dbname with your chosen database name.
 
 ```
 CREATE USER username@'localhost' IDENTIFIED BY 'chosenpassword';
 ```
-Replace username with your chosen username and chosenpassword with your password of choice
+Replace username with your chosen username and chosenpassword with your password of choice.
 
 ``` 
 GRANT ALL PRIVILEGES ON dbname.* TO 'username'@'localhost';
@@ -92,13 +94,13 @@ GRANT ALL PRIVILEGES ON dbname.* TO 'username'@'localhost';
 ``` 
 FLUSH PRIVILEGES;
 ```
-This updates the database with your changes
+This updates the database with your changes.
 ```
 EXIT
 ```
 
 ### Create and edit the wp-config.php file
-1. Create a wp-config.php file by copying the wp-config-sample.php file. This provides a new configuration while keeping hte original as a backup
+1. Create a wp-config.php file by copying the wp-config-sample.php file. This provides a new configuration while keeping the original as a backup
    ```
    cp wordpress/wp-config-sample.php wordpress/wp-config.php
    ```
@@ -183,14 +185,14 @@ To execute the script
 ```
 sudo chmod +x scriptname.sh
 ```
-This will prompt you for your password. 
+This will prompt you to enter your Linux user's password.
 
 To run the script output 
 ```
 ./scriptname.sh
 ```
 
-To easily view the contents of your script, you can use the cat command
+To easily view the contents of your script, you can use the cat command.
 
 ```
 cat scriptname.sh
@@ -214,7 +216,7 @@ password="chosenpassword"
 
 Ctrl X, Y to save
 
-Create backup script. This enables automatic backups for WordPress.
+Create a backup script. This enables automatic backups for WordPress.
 
 ```
 nano backupscript.sh
@@ -223,8 +225,8 @@ nano backupscript.sh
 ```
 #!/bin/bash
 
-# MySQL DB credentials - anything beginning with # does not get read when the script is run
-DB_USER="user"
+# MySQL DB credentials - anything beginning with # does not get read when the script is executed
+DB_USER="user"  # Replace "user" and "name" with your DB credentials
 DB_NAME="name"
 
 # Backup directory
@@ -253,14 +255,33 @@ chmod +x ~/backupscript.sh
 
 To automate the backup process, you can set up and run a cron job to run the script at specific intervals 
 
-......................................
+```
+crontab -e
+```
+
+add this command at the end of the page
+
+```
+0 2 * * * tar -zcf /path/to/your/backupscript.sh >> /var/log/backup.log 2>&1
+```
+Ctr X, Y to save
+
+Each space before tar represents a different time frame, you can choose whenever you want these scripts to run
+1. Minute (0-59)
+2. Hour (0-23)
+3. Day of month (1-31)
+4. Month (1-12)
+5. Day of week (0-7 (0 & 7 are both Sunday))
+
 
 ### Copyright Licenses
 It is important to copyright your work to protect your original ideas and creations. This ensure my work cannot be stolen and passed off.
 
 Including a Creative Commons license provides you with choices on how others can use your work, leaving it up to you how your work may be interpreted and distributed.
 
+
 Visit https://creativecommons.org/chooser/ to select a Creative Commons license that fits your website. 
+
 
 This will ask you which license, and the details of your project, providing you with a Creative Commons copyright statement to apply to your project.
 
@@ -268,9 +289,11 @@ This will be placed in the footer of your website.
 
 
 ### References
-Amazon Web Services. (n.d.). Hosting WordPress on Amazon Linux 2. AWS Documentation. https://docs.aws.amazon.com/linux/al2/ug/hosting-wordpress.html
+Amazon Web Services. (n.d.). Hosting WordPress on Amazon Linux 2. AWS Documentation.        
+   https://docs.aws.amazon.com/linux/al2/ug/hosting-wordpress.html
 
-Technical Rajni. (2024). Bash Scripting Tutorial #21 How to Automatically Backup MySQL Database Using Bash Script. https://www.youtube.com/watch?v=WjdbWDslCas
+Technical Rajni. (2024). Bash Scripting Tutorial #21 How to Automatically Backup MySQL Database Using Bash Script.    
+   https://www.youtube.com/watch?v=WjdbWDslCas
 
 
 
